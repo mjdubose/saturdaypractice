@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function each(collection, callback) {
+        if (Array.isArray(collection)) {
+            for (var i = 0; i < collection.length; i++) {
+                callback(collection[i]);
+            }
+        } else {
+            for (var prop in collection) {
+                callback(collection[prop]);
+            }
+        }
+    }
+
+    function map(collection, callback) {
+        var result = [];
+        each(collection, function (element) {
+            result.push(callback(element));
+        });
+        return result;
+    }
+
+    function filter(collection, callback) {
+        var result = [];
+        each(collection, function (element) {
+            if (callback(element)) {
+                result.push(element);
+            }
+        });
+        return result;
+    }
+
+    function some(collection, callback) {
+        var result = false;
+        each(collection, function (element) {
+            if (callback(element)) {
+                result = true;
+            }
+        });
+        return result;
+    }
+
+    function every(collection, callback) {
+        var result = true;
+        each(collection, function (element) {
+            if (!callback(element)) {
+                result = false;
+            }
+        });
+        return result;
+    }
+
+    function reduce(collection, callback, initial) {
+        var accumulator = initial;
+        each(collection, function (element) {
+            if (accumulator == undefined) {
+                accumulator = element;
+            } else {
+                accumulator = callback(accumulator, element);
+            }
+        });
+        return accumulator;
+    }
+
+    function contains(collection, target) {
+        return reduce(collection, function (accumulator, element) {
+            return accumulator || element === target;
+        }, false);
+    }
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+        'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+    // Practice Problems:
+    //-------------------
+    // Use the higherOrderFunctions to solve the following problems:
+
+    // Use filter to return just the vowels from the array letters
+    console.log(filter(letters, function (letter) {
+
+        return ["a", "e", "i", "o", "u"].indexOf(letter) != -1;
+    }));
+
+    // Use filter to return everything that is not equal to the last element of the collection
+    console.log(filter(numbers, function (element) {
+        // your code here
+        return element != numbers[numbers.length - 1];
+    }));
+
+
+    // Use each to print the odd numbers to the console
+    each(numbers, function (number) {
+        if (number % 2 == 1) {
+            console.log(number);
+        }
+        // your code here
+    });
+
+
+    // Use reduce to return the sum of numbers
+    console.log(reduce(numbers, function (sum, number) {
+        return sum += number;
+        // your code here
+    }));
+
+
+    // Use map to convert the array letters to all capital letters
+    console.log(map(letters, function (letter) {
+        return letter.toUpperCase();
+    }));
+
+
+    // Use filter to return every other letter in letters
+    console.log(filter(letters, function (letter) {
+        var count = 0;
+
+        return function (letter) {
+            if (count % 2 === 0) {
+                count++;
+                return true;
+            }
+            else {
+                count++;
+                return false;
+            }
+        }
+    }()));
+
+    // Modify the above function to return the other letters
+    console.log(filter(letters, function (letter) {
+        var count = 0;
+
+        return function (letter) {
+            if (count % 2 === 1) {
+                count++;
+                return true;
+            }
+            else {
+                count++;
+                return false;
+            }
+        }
+    }()));
+
+    // Use filter to return the string "lmnop" from letters
+    console.log((filter(letters, function (letter) {
+        if ((letter == 'l') || (letter == 'm') || (letter == 'n') || (letter == 'o') || (letter == 'p')) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    })).join("")); // HINT: more code here
+
+
+    // Return the sum of the even numbers using filter and reduce together
+    // NO HINTS: All of your code here
+
+    var nestedArray = [[3, 7, 5, 9], [8, 5, 6, 3, 9], [9, 5, 1], [8, 4, 2, 0]];
+
+    // Use filter to return an array of arrays where the first element of each sub-array
+    // is greater than the last element of that sub-array
+
+    console.log(filter(nestedArray, function (element) {
+        // your code here
+        return element[0] > element[element.length - 1];
+    }));
+
+    // Use filter to return an array of arrays where each element in the sub-array
+    // is an odd number
+
+    console.log(filter(nestedArray, function (element) {
+        var value = true;
+        for (i = 0; i < element.length; i++) {
+            value = value && (element[i] % 2 == 1);
+        }
+        return value;
+    }));
+
+console.log(map(nestedArray,function(collection){
+    return reduce(collection,function(sum,thisvalue){
+        return sum+=thisvalue;
+    });
+}));
+    // Use map and reduce to return an array that contains the sum of each sub array
+    // No hints: your code here
+
+
+</script>
+</body>
+</html>
