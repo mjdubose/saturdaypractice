@@ -120,33 +120,24 @@
 
     // Use filter to return every other letter in letters
     console.log(filter(letters, function (letter) {
-        var count = 0;
+        var count = true;
 
         return function (letter) {
-            if (count % 2 === 0) {
-                count++;
-                return true;
-            }
-            else {
-                count++;
-                return false;
-            }
+
+                count=!count;
+                return !count;
+
         }
     }()));
 
     // Modify the above function to return the other letters
     console.log(filter(letters, function (letter) {
-        var count = 0;
+        var count = false;
 
         return function (letter) {
-            if (count % 2 === 1) {
-                count++;
-                return true;
-            }
-            else {
-                count++;
-                return false;
-            }
+
+            count=!count;
+            return !count;
         }
     }()));
 
